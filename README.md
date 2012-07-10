@@ -5,6 +5,8 @@ Tiny command line tool(s) for geocoding from strings
 
 ## gut.py
 
+This script for now does one thing only: It tries to return the geo-position (latitude, longitude) of a street intersections.
+
 ### Usage
 
     python gut.py [options] "Street1 / Street2"
