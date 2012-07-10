@@ -5,7 +5,9 @@ Tiny command line tool(s) for geocoding from strings
 
 ## gut.py
 
-This script for now does one thing only: It tries to return the geo-position (latitude, longitude) of a street intersections.
+This script for now does one thing only: It tries to return the geo-position (latitude, longitude) of a street intersection.
+
+It uses the Overpass API, which is based on OpenStreetmap data. This means that returned data is courtesy of OpenStreetmap. See http://www.openstreetmap.org/copyright on how to attribute.
 
 ### Usage
 
