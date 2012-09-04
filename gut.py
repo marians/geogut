@@ -71,7 +71,7 @@ def geocode(string, options):
             sys.stderr.write(("%s has 1 intersection node.\n" % string).encode('utf-8'))
             return (crossnodes[0]['lat'], crossnodes[0]['lon'])
         else:
-            sys.stderr.write(('%s has %d intersection nodes.\n' % (string, len(crossnodes)).encode('utf-8')))
+            sys.stderr.write(('%s has %d intersection nodes.\n' % (string, len(crossnodes))).encode('utf-8'))
             return avg_nodes(crossnodes)
 
 
