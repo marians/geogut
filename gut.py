@@ -68,10 +68,10 @@ def geocode(string, options):
             sys.stderr.write("Bummer: " + string + " have no intersection.\n")
             return None
         elif len(crossnodes) == 1:
-            print string, "has 1 intersection node."
+            sys.stderr.write("%s has 1 intersection node.\n" % string)
             return (crossnodes[0]['lat'], crossnodes[0]['lon'])
         else:
-            print string, "has", len(crossnodes), "intersection nodes."
+            sys.stderr.write('%s has %d intersection nodes.\n' % (string, len(crossnodes)))
             return avg_nodes(crossnodes)
 
 
@@ -103,6 +103,14 @@ def avg_nodes(nodes):
     )
 
 
+def print_geocode_value(line, options):
+    value = geocode(line, options)
+    if value is None:
+        sys.stdout.write('\n')
+    else:
+        sys.stdout.write('%f,%f\n' % value)
+
+
 if __name__ == '__main__':
     op = OptionParser()
     op.add_option("-c", "--country", dest="country",
@@ -112,9 +120,11 @@ if __name__ == '__main__':
     op.add_option("-r", "--restrict", action="store_true", dest="restrict",
         help="Restrict the search to bbox. Otherwise will prefer items within bbox.")
     (options, args) = op.parse_args()
-    if len(args) == 0 or args[0] == '':
-        sys.stderr.write("You didn't provide a string to geocode.")
-        sys.exit(1)
     encoding = locale.getdefaultlocale()[1]
-    unicode_input = unicode(args[0], encoding)
-    print geocode(unicode_input, options)
+    if len(args) == 0 or args[0] == '':
+        for line in sys.stdin:
+            line = unicode(line, encoding)
+            print_geocode_value(line, options)
+    else:
+        unicode_input = unicode(args[0], encoding)
+        print_geocode_value(unicode_input, options)
