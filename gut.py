@@ -5,6 +5,7 @@ import sys
 import urllib
 from optparse import OptionParser
 import json
+import locale
 
 
 def overpass(queryparts):
@@ -114,4 +115,6 @@ if __name__ == '__main__':
     if len(args) == 0 or args[0] == '':
         sys.stderr.write("You didn't provide a string to geocode.")
         sys.exit(1)
-    print geocode(unicode(args[0], 'utf-8'), options)
+    encoding = locale.getdefaultlocale()[1]
+    unicode_input = unicode(args[0], encoding)
+    print geocode(unicode_input, options)
