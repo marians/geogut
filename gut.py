@@ -65,13 +65,13 @@ def geocode(string, options):
         nodes2 = get_nodes_for_street(parts[1], options)
         crossnodes = get_common_nodes(nodes1, nodes2)
         if len(crossnodes) == 0:
-            sys.stderr.write("Bummer: " + string + " have no intersection.\n")
+            sys.stderr.write(("Bummer: %s have no intersection.\n" % string).encode('utf-8'))
             return None
         elif len(crossnodes) == 1:
-            sys.stderr.write("%s has 1 intersection node.\n" % string)
+            sys.stderr.write(("%s has 1 intersection node.\n" % string).encode('utf-8'))
             return (crossnodes[0]['lat'], crossnodes[0]['lon'])
         else:
-            sys.stderr.write('%s has %d intersection nodes.\n' % (string, len(crossnodes)))
+            sys.stderr.write(('%s has %d intersection nodes.\n' % (string, len(crossnodes)).encode('utf-8')))
             return avg_nodes(crossnodes)
 
 
