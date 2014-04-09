@@ -5,6 +5,7 @@ import urllib
 from optparse import OptionParser
 import json
 import locale
+import anydbm
 
 
 def overpass(queryparts):
@@ -17,13 +18,15 @@ def overpass(queryparts):
     for part in queryparts:
         query += part + ';' + "\n"
     query += 'out body;' + "\n"
-    request = urllib.urlopen(
-        'http://overpass-api.de/api/interpreter',
-        urllib.urlencode({'data': query.encode('utf-8')})
-    )
-    body = request.read()
-    response = json.loads(body)
-    return response['elements']
+    key = urllib.urlencode({'data': query.encode('utf-8')})
+    if key in overpass_cache:
+        return json.loads(overpass_cache[key])['elements']
+    else:
+        request = urllib.urlopen('http://overpass-api.de/api/interpreter', key)
+        body = request.read()
+        overpass_cache[key] = body
+        response = json.loads(body)
+        return response['elements']
 
 
 def get_nodes_for_street(string, options):
@@ -56,9 +59,7 @@ def geocode(string, options):
     - Fuzzy name resolution
     - approximation if streets have no intersection but close-enough nodes
     """
-    parts = string.split('/')
-    for n in range(0, len(parts)):
-        parts[n] = parts[n].strip()
+    parts = [p.strip() for p in string.split('/')]
     if len(parts) > 1:
         nodes1 = get_nodes_for_street(parts[0], options)
         nodes2 = get_nodes_for_street(parts[1], options)
@@ -119,6 +120,7 @@ if __name__ == '__main__':
     op.add_option("-r", "--restrict", action="store_true", dest="restrict",
         help="Restrict the search to bbox. Otherwise will prefer items within bbox.")
     (options, args) = op.parse_args()
+    overpass_cache = anydbm.open('geogut_cache', 'c')
     encoding = locale.getdefaultlocale()[1]
     if len(args) == 0 or args[0] == '':
         for line in sys.stdin:

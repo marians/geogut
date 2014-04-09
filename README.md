@@ -40,3 +40,11 @@ The bounding box is given as comma-seperated float values in the following order
 2. lower latitude
 3. higher longitude
 4. higher latitude
+
+### Caching
+
+Overpass API requests are cached automatically in a file called `geogut_cache.py` in the current working directory.
+This speeds up identical requests and takes load from the Overpass servers.
+
+You can delete the cache file in order to make sure that the server is connected for fresh results. The file
+will be recreated upon next run.
