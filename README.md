@@ -20,7 +20,7 @@ Street1 and Street2 have to be actual street names. If they have an intersection
 This will find the intersection of the two streets "Am Bayenturm" and "Ubierring". The option "-b" gives a bounding box which restricts the search result to a certain area. In this case, it is a box around the city of Cologne, Germany.
 
     > python gut.py -b 6.7,50.8,7.1,51.0 "Am Bayenturm / Ubierring"
-    >>>> 50.922364224999995, 6.967146475
+    >>>> 6.967146475,50.922364224999995
 
 For batch processing give file with an intersection on each line as `stdin` and get a pair of coordinates for each line on `stdout`. `stderr` is used for log messages.
 
@@ -36,7 +36,7 @@ If you leave out this option, you risk bad results. If intersections of several 
 
 The bounding box is given as comma-seperated float values in the following order:
 
-1. lower latitude
-2. lower longitude
-3. higher latitude
-4. higher longitude
+1. lower longitude
+2. lower latitude
+3. higher longitude
+4. higher latitude
