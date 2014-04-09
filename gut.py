@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-# encoding: utf-8
+# encoding: utf8
 
 import sys
 import urllib
@@ -34,7 +33,7 @@ def get_nodes_for_street(string, options):
     """
     overpass_args = []
     if options.bbox is not None:
-        (lowerlat, lowerlon, upperlat, upperlon) = options.bbox.split(',')
+        (lowerlon, lowerlat, upperlon, upperlat) = options.bbox.split(',')
         overpass_args.append('way["name"="%s"](%s,%s,%s,%s)' % (string, lowerlat, lowerlon, upperlat, upperlon))
     else:
         overpass_args.append('way["name"="%s"]' % string)
@@ -69,7 +68,7 @@ def geocode(string, options):
             return None
         elif len(crossnodes) == 1:
             sys.stderr.write(("%s has 1 intersection node.\n" % string).encode('utf-8'))
-            return (crossnodes[0]['lat'], crossnodes[0]['lon'])
+            return (crossnodes[0]['lon'], crossnodes[0]['lat'])
         else:
             sys.stderr.write(('%s has %d intersection nodes.\n' % (string, len(crossnodes))).encode('utf-8'))
             return avg_nodes(crossnodes)
@@ -88,18 +87,18 @@ def get_common_nodes(nodes1, nodes2):
 
 def avg_nodes(nodes):
     """
-    Returns the average latitute/longitude of a list of nodes
+    Returns the average longitude/latitute tuple of a list of nodes
     """
     sum_lat = 0
     sum_lon = 0
     count = 0
     for node in nodes:
-        sum_lat += node['lat']
         sum_lon += node['lon']
+        sum_lat += node['lat']
         count += 1
     return (
-        sum_lat / count,
-        sum_lon / count
+        sum_lon / count,
+        sum_lat / count
     )
 
 
@@ -116,7 +115,7 @@ if __name__ == '__main__':
     op.add_option("-c", "--country", dest="country",
         help="Restrict search to country (multiple countries seperated by comma", metavar="COUNTRY")
     op.add_option("-b", "--bbox", dest="bbox",
-        help="Define this bounding box (lower lat, lower lon, upper lat, upper lon)", metavar="BBOX")
+        help="Define this bounding box (lower lon, lower lat, upper lon, upper lat)", metavar="BBOX")
     op.add_option("-r", "--restrict", action="store_true", dest="restrict",
         help="Restrict the search to bbox. Otherwise will prefer items within bbox.")
     (options, args) = op.parse_args()
