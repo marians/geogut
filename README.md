@@ -5,7 +5,7 @@ Tiny command line tool(s) for geocoding from strings
 
 ## gut.py
 
-This script for now does one thing only: It tries to return the geo-position (latitude, longitude) of a street intersection.
+This script for now does one thing only: It tries to return the geo-position (longitude, latitude) of a street intersection.
 
 It uses the Overpass API, which is based on OpenStreetmap data. This means that returned data is courtesy of OpenStreetmap. See http://www.openstreetmap.org/copyright on how to attribute.
 
@@ -19,12 +19,12 @@ Street1 and Street2 have to be actual street names. If they have an intersection
 
 This will find the intersection of the two streets "Am Bayenturm" and "Ubierring". The option "-b" gives a bounding box which restricts the search result to a certain area. In this case, it is a box around the city of Cologne, Germany.
 
-    > python gut.py -b 50.8,6.7,51.0,7.1 "Am Bayenturm / Ubierring"
+    > python gut.py -b 6.7,50.8,7.1,51.0 "Am Bayenturm / Ubierring"
     >>>> 50.922364224999995, 6.967146475
 
 For batch processing give file with an intersection on each line as `stdin` and get a pair of coordinates for each line on `stdout`. `stderr` is used for log messages.
 
-    > python gut.py -b 50.8,6.7,51.0,7.1 < input.txt > output.txt
+    > python gut.py -b 6.7,50.8,7.1,51.0 < input.txt > output.txt
 
 ### Parameters
 
